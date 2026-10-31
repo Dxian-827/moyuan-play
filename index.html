@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,height=device-height,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>魔源起源</title>
+<style>
+html,body{margin:0;height:100%;overflow:hidden;background:#24345c;touch-action:none;-webkit-user-select:none;user-select:none}
+#c{position:fixed;inset:0;width:100vw;height:100vh;display:block}
+#load{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:#f3e6c4;font:16px system-ui,sans-serif}
+#bar{width:min(60vw,320px);height:8px;background:#1a2440;border-radius:4px;overflow:hidden}
+#bar i{display:block;height:100%;width:0;background:#e8b04a}
+</style>
+</head>
+<body>
+<canvas id="c" tabindex="-1"></canvas>
+<div id="load"><div>魔源起源 · Unity 版 读取中……</div><div id="bar"><i></i></div></div>
+<script src="Build/WebGL.loader.js"></script>
+<script>
+const bar=document.querySelector('#bar i');
+createUnityInstance(document.querySelector('#c'),{
+  dataUrl:"Build/WebGL.data.unityweb",
+  frameworkUrl:"Build/WebGL.framework.js.unityweb",
+  codeUrl:"Build/WebGL.wasm.unityweb",
+  streamingAssetsUrl:"StreamingAssets",
+  companyName:"魔源",
+  productName:"魔源起源",
+  productVersion:"1.0",
+  devicePixelRatio:1,   // 按 CSS 像素出画面：不然 Unity 的界面（OnGUI）和画布对不上，下半截画到屏幕外；像素图本来就整数倍放大，不会糊
+},p=>bar.style.width=(p*100)+'%').then(u=>{window.unityInstance=u;document.querySelector('#load').remove();})
+ .catch(e=>{document.querySelector('#load').textContent='打不开：'+e;});
+</script>
+</body>
+</html>
